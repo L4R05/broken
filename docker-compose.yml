@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  webpage:
+    build: .
+    volumes:
+      - ./src:/var/www/html
+    links:
+      - database
+    ports:
+      - 9999:80
+    networks:
+      - default
+  database:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: cisi
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./sql-data:/var/lib/mysql
+    ports:
+      - 9998:3306
+    networks:
+      - default
